@@ -2,13 +2,15 @@
   "name": "js-review-and-practice",
   "version": "1.0.0",
   "main": "index.js",
+  "module": "typescript",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
   },
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "express": "^4.21.2",
     "lodash": "^4.17.21"
   }
 }
