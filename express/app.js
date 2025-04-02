@@ -1,14 +1,17 @@
-const express = require("express");
-const path = require("path");
+import express from "express";
+import path from "path";
+import morgan from "morgan";
+import connectDB from "./db.js";
+import User from "./models/users.js";
 
 const app = express();
 
 app.set("view engine", "ejs");
 app.set("views", "./express/views");
 
-app.listen(3000, () => {
-  console.log("listening on 3000....");
-});
+app.use(morgan("dev"));
+
+await connectDB();
 
 app.get("/", (req, res) => {
   // plain routing using sendFile
@@ -35,6 +38,16 @@ app.get("blog/create", (req, res) => {
   res.render("create", { val: "blog content" });
 });
 
+// query mongodb database for existing users data
+app.get("/users", async (req, res) => {
+  try {
+    const users = await User.find();
+    res.json(users);
+  } catch {
+    console.error(err);
+  }
+});
+
 // will only execute once code reaches this far
 app.use((req, res) => {
   // plain routing using sendFile
@@ -44,4 +57,8 @@ app.use((req, res) => {
 
   // using ejs view
   res.status(404).render("404", { val: "blog content" });
+});
+
+app.listen(3000, () => {
+  console.log("listening on 3000....");
 });
